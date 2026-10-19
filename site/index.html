@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Store P&amp;L Analyst: AI CFO for online stores</title>
+<meta name="description" content="Upload your store's monthly P&L and get margin breakdown, variance vs last month, unit economics and cash flags, and CFO-style commentary. Runs in your browser.">
+<link rel="stylesheet" href="styles.css"></head>
+<body>
+<header class="topbar"><a class="brand" href="./"><span class="logo"></span>Store P&amp;L Analyst <span class="tag">AI CFO for online stores</span></a><a class="gh" href="https://github.com/madebysid/store-pnl-analyst">GitHub</a></header>
+<main class="wrap">
+<section id="landing">
+  <div class="hero"><h1>Your store's month-end review, in seconds</h1>
+  <p class="lead">Drop in a monthly P&amp;L CSV. Get margins, what moved profit vs last month, unit economics, cash warnings and a CFO-style write-up. Nothing is uploaded; it all runs in your browser.</p></div>
+  <label class="dropzone" id="drop" tabindex="0"><input type="file" id="file" accept=".csv,text/csv" hidden>
+    <div class="dz-icon">↑</div><div class="dz-title">Drop your P&amp;L CSV here</div><div class="dz-sub">or click to choose a file. One row per month.</div></label>
+  <div class="actions"><button class="btn btn-primary" id="try-sample">See it with sample data</button><a class="btn btn-ghost" href="sample/store_pnl_sample.csv" download>Download CSV template</a></div>
+  <div class="error" id="err" hidden></div>
+  <div class="cards3">
+    <div class="info"><h3>1. Export</h3><p>Columns: month, gross_sales, cogs. Optional: discounts, refunds, shipping, payment_fees, ad_spend, payroll, apps_software, other_opex, orders, ending_cash, ending_inventory. Common names like "revenue" or "marketing" work too.</p></div>
+    <div class="info"><h3>2. Review</h3><p>P&amp;L waterfall, month-on-month variance and an EBITDA bridge, plus margin, MER, contribution per order, inventory days and runway.</p></div>
+    <div class="info"><h3>3. Act</h3><p>Rule-based flags and commentary for free. Optionally add your own OpenAI or Anthropic key for an AI CFO note with next-month actions.</p></div>
+  </div>
+  <p class="privacy">Built by <a href="https://sidailab.com">Siddharth Kumar</a>, ex-Amazon finance partner who runs P&amp;Ls for ~50 Shopify stores. Based on the AI Financial Coach Agent from <a href="https://github.com/Shubhamsaboo/awesome-llm-apps">Shubhamsaboo/awesome-llm-apps</a>.</p>
+</section>
+<section id="report" hidden>
+  <div class="toolbar"><div><label class="small muted">Month <select id="month"></select></label> <label class="small muted">Currency <select id="cur"><option>$</option><option value="AED ">AED</option><option>€</option><option>£</option></select></label></div>
+  <div><button class="btn btn-ghost" id="print">Print / PDF</button> <button class="btn btn-ghost" id="back">New file</button></div></div>
+  <div class="kpis" id="kpis"></div>
+  <div class="grid2">
+    <div class="panel"><h2>CFO commentary</h2><ul id="comment"></ul>
+      <details class="ai"><summary>Get an AI CFO note (optional, your own key)</summary>
+        <div class="airow"><select id="prov"><option value="openai">OpenAI</option><option value="anthropic">Anthropic</option></select><input id="key" type="password" placeholder="Paste API key (not stored)"><button class="btn btn-primary" id="ai-run">Write note</button></div>
+        <p class="small muted" id="ai-status">Only the summary metrics are sent, straight from your browser to the provider.</p></details></div>
+    <div class="panel"><h2>Flags</h2><div id="flags"></div></div>
+  </div>
+  <div class="panel"><h2>P&amp;L and variance vs prior month</h2><div class="tablewrap"><table id="pnl"></table></div></div>
+  <div class="grid2">
+    <div class="panel"><h2>What moved EBITDA</h2><div id="bridge"></div></div>
+    <div class="panel"><h2>Trend</h2><div id="trend"></div></div>
+  </div>
+</section>
+</main>
+<script type="module" src="app.js"></script>
+</body></html>
